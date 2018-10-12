@@ -1,6 +1,7 @@
 package se254.a4.q1;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
@@ -18,10 +19,20 @@ public class Q1Main {
 		Class<?> cl = getSpecifiedClass(usrIn);
 		checkValidClass(cl);
 		Object obj = getSpecifiedObject(cl);
-		System.out.println("\nYou entered: " + usrIn + "\nAn object has been created for this class\n");
+		System.out.println("You entered: " + usrIn + "\nAn object has been created for this class\n");
 
-		printPublicFields(cl, obj);
-		printPublicMethods(cl);
+		while (true) {
+			printPublicFields(cl, obj);
+			printPublicMethods(cl);
+			
+			int errCode = 1;
+			while (errCode != 0) {
+				System.out.println("Enter the name of a method to execute on the object (without the brackets): ");
+				String methodName = getUserInput();
+				errCode = performSpecifiedMethod(cl, obj, methodName);
+			}
+
+		}
 
 
 	}
@@ -30,7 +41,6 @@ public class Q1Main {
 	private static String getUserInput() {
 		Scanner scan = new Scanner(System.in);
 		String s = scan.next();
-		scan.close();
 		return s;
 	}
 
@@ -88,4 +98,18 @@ public class Q1Main {
 		System.out.println();
 	}
 
-}
+
+	private static int performSpecifiedMethod(Class<?> cl, Object obj, String methodName) {
+		try {
+			Method m = cl.getMethod(methodName, null);
+			m.invoke(obj, null);
+			System.out.println("\nTHE " + methodName + "() METHOD HAS BEEN INVOKED");
+			System.out.println("=======================================\n");
+			return 0;
+		} catch (Exception e) {
+			System.err.println("ERROR: Invalid method name...");
+			return 1;
+		}
+	}
+
+} 
