@@ -9,8 +9,9 @@ public class Q2Main {
 	public static void main(String[] args) {
 
 		UnitTestTemplate template = new UnitTestTemplate();
-		String result = template.generate(MyLib.class);
+		String result = template.generate(se254.a4.q1.Counter.class);
 		System.out.println(result);
+		
 
 	}
 
