@@ -27,3 +27,21 @@
 	<%}%>
 <%}%>
 
+public class <%=arg.className%> {
+	<% for (Field f : superFields) { %>
+		protected <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<%}%>
+}
+
+public class <%=a.getSimpleName()%> extends <%=arg.className%> {
+	<% for (Field f : aFields) { %>
+		private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<%}%>
+}
+
+public class <%=b.getSimpleName()%> extends <%=arg.className%> {
+	<% for (Field f : bFields) { %>
+		private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<%}%>
+}
+
