@@ -1,2 +1,29 @@
-<%@ jet package="se254.a4.q3" class="ExtractorTemplate" %>
-// Your code goes here!
+<%@ jet package="se254.a4.q3" class="ExtractorTemplate" imports="java.lang.reflect.* java.util.List java.util.ArrayList java.util.Arrays"%>
+
+<% se254.a4.q3.ExtractorArgument arg = (se254.a4.q3.ExtractorArgument)argument; %>
+
+<% Class<se254.a4.q3.ExtractorArgument> cl = (Class<se254.a4.q3.ExtractorArgument>)arg.getClass(); %>
+
+<% Class<?> a = null; %>
+<% Class<?> b = null; %>
+<% try { %>
+	<% a = cl.getDeclaredField("a").getType(); %>
+	<% b = cl.getDeclaredField("b").getType(); %>
+<% } catch (Exception e) { %>
+	<% e.printStackTrace(); %>
+<%}%>
+
+<% List<Field> superFields = new ArrayList<Field>(); %>
+<% List<Field> aFields = new ArrayList<Field>(Arrays.asList(a.getFields())); %>
+<% List<Field> bFields = new ArrayList<Field>(Arrays.asList(b.getFields())); %>
+
+<% for (Field fa : aFields) { %>
+	<% for (Field fb : bFields) { %>
+		<% if ((fa.getName() == fb.getName()) && Modifier.isPublic(fa.getModifiers()) && Modifier.isPublic(fb.getModifiers())) { %>
+			<% superFields.add(fa); %>
+			<% aFields.remove(fa); %>
+			<% bFields.remove(fb); %>
+		<%}%>
+	<%}%>
+<%}%>
+
