@@ -1,47 +1,43 @@
 <%@ jet package="se254.a4.q3" class="ExtractorTemplate" imports="java.lang.reflect.* java.util.List java.util.ArrayList java.util.Arrays"%>
-
 <% se254.a4.q3.ExtractorArgument arg = (se254.a4.q3.ExtractorArgument)argument; %>
-
 <% Class<se254.a4.q3.ExtractorArgument> cl = (Class<se254.a4.q3.ExtractorArgument>)arg.getClass(); %>
-
 <% Class<?> a = null; %>
 <% Class<?> b = null; %>
 <% try { %>
-	<% a = cl.getDeclaredField("a").getType(); %>
-	<% b = cl.getDeclaredField("b").getType(); %>
+	<% a = arg.a; %>
+	<% b = arg.b; %>
 <% } catch (Exception e) { %>
 	<% e.printStackTrace(); %>
 <%}%>
-
 <% List<Field> superFields = new ArrayList<Field>(); %>
 <% List<Field> aFields = new ArrayList<Field>(Arrays.asList(a.getFields())); %>
 <% List<Field> bFields = new ArrayList<Field>(Arrays.asList(b.getFields())); %>
-
+<% List<Field> bFieldsToRemove = new ArrayList<Field>(); %>
 <% for (Field fa : aFields) { %>
 	<% for (Field fb : bFields) { %>
-		<% if ((fa.getName() == fb.getName()) && Modifier.isPublic(fa.getModifiers()) && Modifier.isPublic(fb.getModifiers())) { %>
+		<% if ((fa.getName() == fb.getName()) && (fa.getType().equals(fb.getType())) && Modifier.isPublic(fa.getModifiers()) && Modifier.isPublic(fb.getModifiers())) { %>
 			<% superFields.add(fa); %>
-			<% aFields.remove(fa); %>
-			<% bFields.remove(fb); %>
+			<% bFieldsToRemove.add(fb); %>
 		<%}%>
 	<%}%>
 <%}%>
-
+<% aFields.removeAll(superFields);%>
+<% bFields.removeAll(bFieldsToRemove);%>
 public class <%=arg.className%> {
 	<% for (Field f : superFields) { %>
-		protected <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	protected <%=f.getType().getSimpleName()%> <%=f.getName()%>;
 	<%}%>
 }
 
 public class <%=a.getSimpleName()%> extends <%=arg.className%> {
 	<% for (Field f : aFields) { %>
-		private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
 	<%}%>
 }
 
 public class <%=b.getSimpleName()%> extends <%=arg.className%> {
 	<% for (Field f : bFields) { %>
-		private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
 	<%}%>
 }
 
