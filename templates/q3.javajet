@@ -10,8 +10,8 @@
 	<% e.printStackTrace(); %>
 <%}%>
 <% List<Field> superFields = new ArrayList<Field>(); %>
-<% List<Field> aFields = new ArrayList<Field>(Arrays.asList(a.getFields())); %>
-<% List<Field> bFields = new ArrayList<Field>(Arrays.asList(b.getFields())); %>
+<% List<Field> aFields = new ArrayList<Field>(Arrays.asList(a.getDeclaredFields())); %>
+<% List<Field> bFields = new ArrayList<Field>(Arrays.asList(b.getDeclaredFields())); %>
 <% List<Field> bFieldsToRemove = new ArrayList<Field>(); %>
 <% for (Field fa : aFields) { %>
 	<% for (Field fb : bFields) { %>
@@ -31,13 +31,17 @@ public class <%=arg.className%> {
 
 public class <%=a.getSimpleName()%> extends <%=arg.className%> {
 	<% for (Field f : aFields) { %>
-	private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<% if (Modifier.isProtected(f.getModifiers())) { %> protected <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<%} else { %> private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<%}%>
 	<%}%>
 }
 
 public class <%=b.getSimpleName()%> extends <%=arg.className%> {
 	<% for (Field f : bFields) { %>
-	private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<% if (Modifier.isProtected(f.getModifiers())) { %> protected <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<%} else { %> private <%=f.getType().getSimpleName()%> <%=f.getName()%>;
+	<%}%>
 	<%}%>
 }
 

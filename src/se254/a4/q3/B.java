@@ -4,4 +4,6 @@ public class B {
 	public int n;
 	public double y;
 	public double z;
+
+	protected static Long longg;
 }

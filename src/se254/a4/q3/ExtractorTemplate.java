@@ -34,17 +34,27 @@ public class ExtractorTemplate
   protected final String TEXT_15 = NL + "}" + NL + "" + NL + "public class ";
   protected final String TEXT_16 = " extends ";
   protected final String TEXT_17 = " {" + NL + "\t";
-  protected final String TEXT_18 = NL + "\tprivate ";
-  protected final String TEXT_19 = " ";
-  protected final String TEXT_20 = ";" + NL + "\t";
-  protected final String TEXT_21 = NL + "}" + NL + "" + NL + "public class ";
-  protected final String TEXT_22 = " extends ";
-  protected final String TEXT_23 = " {" + NL + "\t";
-  protected final String TEXT_24 = NL + "\tprivate ";
-  protected final String TEXT_25 = " ";
-  protected final String TEXT_26 = ";" + NL + "\t";
-  protected final String TEXT_27 = NL + "}" + NL;
-  protected final String TEXT_28 = NL;
+  protected final String TEXT_18 = NL + "\t";
+  protected final String TEXT_19 = " protected ";
+  protected final String TEXT_20 = " ";
+  protected final String TEXT_21 = ";" + NL + "\t";
+  protected final String TEXT_22 = " private ";
+  protected final String TEXT_23 = " ";
+  protected final String TEXT_24 = ";" + NL + "\t";
+  protected final String TEXT_25 = NL + "\t";
+  protected final String TEXT_26 = NL + "}" + NL + "" + NL + "public class ";
+  protected final String TEXT_27 = " extends ";
+  protected final String TEXT_28 = " {" + NL + "\t";
+  protected final String TEXT_29 = NL + "\t";
+  protected final String TEXT_30 = " protected ";
+  protected final String TEXT_31 = " ";
+  protected final String TEXT_32 = ";" + NL + "\t";
+  protected final String TEXT_33 = " private ";
+  protected final String TEXT_34 = " ";
+  protected final String TEXT_35 = ";" + NL + "\t";
+  protected final String TEXT_36 = NL + "\t";
+  protected final String TEXT_37 = NL + "}" + NL;
+  protected final String TEXT_38 = NL;
 
   public String generate(Object argument)
   {
@@ -63,8 +73,8 @@ public class ExtractorTemplate
      e.printStackTrace(); 
     }
      List<Field> superFields = new ArrayList<Field>(); 
-     List<Field> aFields = new ArrayList<Field>(Arrays.asList(a.getFields())); 
-     List<Field> bFields = new ArrayList<Field>(Arrays.asList(b.getFields())); 
+     List<Field> aFields = new ArrayList<Field>(Arrays.asList(a.getDeclaredFields())); 
+     List<Field> bFields = new ArrayList<Field>(Arrays.asList(b.getDeclaredFields())); 
      List<Field> bFieldsToRemove = new ArrayList<Field>(); 
      for (Field fa : aFields) { 
     stringBuffer.append(TEXT_4);
@@ -99,25 +109,45 @@ public class ExtractorTemplate
     stringBuffer.append(TEXT_17);
      for (Field f : aFields) { 
     stringBuffer.append(TEXT_18);
-    stringBuffer.append(f.getType().getSimpleName());
+     if (Modifier.isProtected(f.getModifiers())) { 
     stringBuffer.append(TEXT_19);
-    stringBuffer.append(f.getName());
-    stringBuffer.append(TEXT_20);
-    }
-    stringBuffer.append(TEXT_21);
-    stringBuffer.append(b.getSimpleName());
-    stringBuffer.append(TEXT_22);
-    stringBuffer.append(arg.className);
-    stringBuffer.append(TEXT_23);
-     for (Field f : bFields) { 
-    stringBuffer.append(TEXT_24);
     stringBuffer.append(f.getType().getSimpleName());
-    stringBuffer.append(TEXT_25);
+    stringBuffer.append(TEXT_20);
     stringBuffer.append(f.getName());
-    stringBuffer.append(TEXT_26);
+    stringBuffer.append(TEXT_21);
+    } else { 
+    stringBuffer.append(TEXT_22);
+    stringBuffer.append(f.getType().getSimpleName());
+    stringBuffer.append(TEXT_23);
+    stringBuffer.append(f.getName());
+    stringBuffer.append(TEXT_24);
     }
+    stringBuffer.append(TEXT_25);
+    }
+    stringBuffer.append(TEXT_26);
+    stringBuffer.append(b.getSimpleName());
     stringBuffer.append(TEXT_27);
+    stringBuffer.append(arg.className);
     stringBuffer.append(TEXT_28);
+     for (Field f : bFields) { 
+    stringBuffer.append(TEXT_29);
+     if (Modifier.isProtected(f.getModifiers())) { 
+    stringBuffer.append(TEXT_30);
+    stringBuffer.append(f.getType().getSimpleName());
+    stringBuffer.append(TEXT_31);
+    stringBuffer.append(f.getName());
+    stringBuffer.append(TEXT_32);
+    } else { 
+    stringBuffer.append(TEXT_33);
+    stringBuffer.append(f.getType().getSimpleName());
+    stringBuffer.append(TEXT_34);
+    stringBuffer.append(f.getName());
+    stringBuffer.append(TEXT_35);
+    }
+    stringBuffer.append(TEXT_36);
+    }
+    stringBuffer.append(TEXT_37);
+    stringBuffer.append(TEXT_38);
     return stringBuffer.toString();
   }
 }

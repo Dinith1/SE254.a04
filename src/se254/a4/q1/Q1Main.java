@@ -30,7 +30,7 @@ public class Q1Main {
 		System.out.println("An object has been created for this class.\n");
 
 		while (true) {
-			printPublicFields(cl, obj);
+			printPublicFields(cl, obj); 
 			printPublicMethods(cl);
 			int errCode = 1;
 			// Ask user to enter a method name until a valid one is entered
