@@ -11,4 +11,19 @@ public class MyLib {
 		if(m<n3) m= n3;
 		return m;
 	}
+	
+	static double max(double n1,double n2, double n3, double n4) {
+		double m = n1; 
+		if(m<n2) m= n2;
+		if(m<n3) m= n3;
+		return m;
+	}
+	
+	
+	static double max(double n1,double n2, double n3, double n4, double n5) {
+		double m = n1; 
+		if(m<n2) m= n2;
+		if(m<n3) m= n3;
+		return m;
+	}
 }

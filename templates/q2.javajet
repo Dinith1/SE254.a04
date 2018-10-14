@@ -1,13 +1,25 @@
-<%@ jet package="se254.a4.q2" class="UnitTestTemplate" imports="java.lang.reflect.*" %> 
+<%@ jet package="se254.a4.q2" class="UnitTestTemplate" imports="java.lang.reflect.* java.util.*" %> 
+<% Class<?> cl = (Class<?>) argument; %>
+<% List<String> methodNames = new ArrayList<String>(); %>
+<% List<String> methodNamesOverload = new ArrayList<String>(); %>
+
+<% for (Method m : cl.getDeclaredMethods()) { %>
+	<% methodNames.add(m.getName()); %>
+<%}%>
+
+<% for (Method m : cl.getDeclaredMethods()) { %>
+	<% methodNamesOverload.add(m.getName() + "_" + Collections.frequency(methodNames, m.getName())); %>
+	<% methodNames.remove(methodNames.indexOf(m.getName())); %>
+<%}%>
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-<% Class cl = (Class) argument; %>
 public class <%=cl.getSimpleName()%>Test {
-	<% for (Method m : cl.getDeclaredMethods()) { %>
-		@Test
-		public void test<%=m.getName().substring(0,1).toUpperCase() + m.getName().substring(1)%>() {
-			fail("Not yet implemented");
-		}
+	<% for (String s : methodNamesOverload) { %>
+	@Test
+	public void test<%=s.substring(0,1).toUpperCase() + s.substring(1)%>() {
+		fail("Not yet implemented");
+	}
 	<%}%>
 }
